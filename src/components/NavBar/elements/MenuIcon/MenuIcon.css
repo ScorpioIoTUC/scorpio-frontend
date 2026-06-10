@@ -1,0 +1,30 @@
+.nav__toggler {
+    width: 1.8rem;
+    height: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.nav__toggler div {
+    width: 100%;
+    height: 0.2rem;
+    background-color: var(--text-primary);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.toggle .line1 {
+    transform: rotate(45deg) translate(11px, 6px);
+}
+
+.toggle .line2 {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.toggle .line3 {
+    transform: rotate(-45deg) translate(8px, -6px);
+}
