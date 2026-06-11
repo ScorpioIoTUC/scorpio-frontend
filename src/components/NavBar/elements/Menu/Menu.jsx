@@ -1,5 +1,5 @@
 import MenuIcon from '../MenuIcon/MenuIcon.jsx';
-import { useNavbarContext } from "../../NavbarContext";
+import { useNavbarContext } from "../../useNavbarContext";
 import './Menu.css';
 
 export const Menu = () => {

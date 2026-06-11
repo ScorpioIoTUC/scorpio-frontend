@@ -1,0 +1,32 @@
+.landing-page {
+  --mission-nav-height: 66px;
+  --mission-status-height: 58px;
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  min-height: 100svh;
+  color: #e2e8f0;
+  background:
+    radial-gradient(circle at center, rgba(59, 130, 246, 0.14), transparent 36%),
+    #020617;
+  overflow: hidden;
+}
+
+.landing-page__mission {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 860px) {
+  .landing-page {
+    --mission-nav-height: 112px;
+  }
+}
+
+@media (max-width: 720px) {
+  .landing-page {
+    --mission-status-height: 92px;
+  }
+}

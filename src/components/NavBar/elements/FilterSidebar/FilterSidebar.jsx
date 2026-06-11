@@ -7,7 +7,9 @@ export const FilterSidebar = ({ isOpen, onClose }) => {
     return (
         <div className={`filter-sidebar ${isOpen ? "open" : ""}`}>
             <div className="filter-header">
-                {/* TODO */}
+                <button className="filter-close" type="button" onClick={onClose} aria-label="Cerrar filtros">
+                    x
+                </button>
             </div>
 
             <div className="filter-content">

@@ -1,0 +1,131 @@
+.station-marker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.station-marker:hover,
+.station-marker--selected {
+  transform: translate(-50%, -50%) scale(1.12);
+  z-index: 5;
+}
+
+.station-marker__pulse {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  opacity: 0.65;
+  animation: station-pulse 2s ease-out infinite;
+}
+
+.station-marker--online .station-marker__pulse {
+  background: rgba(34, 197, 94, 0.22);
+  box-shadow: 0 0 22px rgba(34, 197, 94, 0.55);
+}
+
+.station-marker--offline .station-marker__pulse {
+  background: rgba(148, 163, 184, 0.14);
+  box-shadow: 0 0 18px rgba(148, 163, 184, 0.28);
+  animation: none;
+}
+
+.station-marker__core {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #22d3ee;
+  border: 2px solid #e2e8f0;
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.88);
+}
+
+.station-marker--offline .station-marker__core {
+  background: #64748b;
+  box-shadow: 0 0 14px rgba(148, 163, 184, 0.5);
+}
+
+.station-marker__mast {
+  position: absolute;
+  bottom: 5px;
+  width: 3px;
+  height: 16px;
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.station-marker__dish {
+  position: absolute;
+  bottom: 14px;
+  width: 24px;
+  height: 14px;
+  border: 3px solid #cbd5e1;
+  border-top: 0;
+  border-radius: 0 0 22px 22px;
+  transform: rotate(-34deg);
+  transform-origin: center;
+}
+
+.station-marker--selected .station-marker__dish,
+.station-marker:hover .station-marker__dish {
+  border-color: #22d3ee;
+}
+
+.station-marker__tooltip {
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  display: grid;
+  min-width: 138px;
+  padding: 10px 12px;
+  color: #e2e8f0;
+  font: 12px/1.35 var(--sans);
+  text-align: left;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(51, 65, 85, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 16px 38px rgba(2, 6, 23, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.station-marker__tooltip strong {
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.station-marker__tooltip span {
+  color: #94a3b8;
+}
+
+.station-marker:hover .station-marker__tooltip,
+.station-marker:focus-visible .station-marker__tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes station-pulse {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.75;
+  }
+
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}

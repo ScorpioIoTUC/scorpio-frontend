@@ -1,0 +1,193 @@
+.auth-page {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: 24px;
+  overflow: hidden;
+  color: #e2e8f0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 8%, rgba(34, 211, 238, 0.12), transparent 26%),
+    linear-gradient(160deg, #060b18 0%, #081020 54%, #060b18 100%);
+  box-sizing: border-box;
+}
+
+.auth-page__background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.auth-page__background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(circle, rgba(226, 232, 240, 0.45) 1px, transparent 1px),
+    linear-gradient(120deg, transparent 20%, rgba(34, 211, 238, 0.08), transparent 54%);
+  background-size:
+    56px 56px,
+    100% 100%;
+}
+
+.auth-page__satellite-path {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(92vw, 820px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(36, 59, 103, 0.55);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  box-shadow: inset 0 0 42px rgba(59, 130, 246, 0.08);
+}
+
+.auth-form {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  text-align: left;
+}
+
+.auth-form__field {
+  display: grid;
+  gap: 8px;
+}
+
+.auth-form__field label {
+  color: #cbd5e1;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.auth-form__field input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  color: #e2e8f0;
+  background: rgba(6, 11, 24, 0.72);
+  border: 1px solid rgba(36, 59, 103, 0.96);
+  border-radius: 8px;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(226, 232, 240, 0.04);
+  box-sizing: border-box;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.auth-form__field input::placeholder {
+  color: #64748b;
+}
+
+.auth-form__field input:hover,
+.auth-form__field input:focus {
+  background: rgba(15, 23, 42, 0.88);
+  border-color: #3b82f6;
+  box-shadow:
+    0 0 0 3px rgba(59, 130, 246, 0.18),
+    0 0 24px rgba(59, 130, 246, 0.14);
+}
+
+.auth-form__message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.auth-form__message--error {
+  color: #fecaca;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.38);
+}
+
+.auth-form__message--success {
+  color: #bbf7d0;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.38);
+}
+
+.auth-form__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.auth-form__button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.auth-form__button:focus-visible {
+  outline: 3px solid rgba(34, 211, 238, 0.42);
+  outline-offset: 2px;
+}
+
+.auth-form__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.auth-form__button--primary {
+  color: #ffffff;
+  background: linear-gradient(135deg, #3b82f6, #22d3ee);
+  border: 1px solid rgba(34, 211, 238, 0.7);
+  box-shadow: 0 14px 34px rgba(59, 130, 246, 0.28);
+}
+
+.auth-form__button--secondary {
+  color: #bfdbfe;
+  background: rgba(15, 23, 42, 0.62);
+  border: 1px solid rgba(36, 59, 103, 0.96);
+}
+
+.auth-form__button--secondary:hover {
+  border-color: rgba(34, 211, 238, 0.72);
+  box-shadow: 0 0 22px rgba(34, 211, 238, 0.12);
+}
+
+.auth-form__loader {
+  width: 18px;
+  aspect-ratio: 1;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: auth-spin 800ms linear infinite;
+}
+
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .auth-page {
+    align-items: center;
+    padding: 18px;
+  }
+
+  .auth-form__field input,
+  .auth-form__button {
+    min-height: 54px;
+  }
+}

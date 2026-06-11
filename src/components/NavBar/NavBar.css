@@ -1,41 +1,138 @@
-.navbar {
-    height: var(--nav-height);
-    background-color: var(--nav-bg);
-    align-items: center;
-    display: flex;
-    justify-content: flex-end; 
-    width: 100%;
-    margin: 0;
-    padding: 0 1.5rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000; 
-    box-sizing: border-box;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.mission-navbar {
+  position: relative;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1.6fr) auto;
+  align-items: center;
+  gap: 18px;
+  height: var(--mission-nav-height);
+  padding: 0 28px;
+  color: #e2e8f0;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.96));
+  border-bottom: 1px solid rgba(51, 65, 85, 0.95);
+  box-shadow: 0 12px 32px rgba(2, 6, 23, 0.4);
+  box-sizing: border-box;
 }
 
-.navbar p {
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    font-weight: 500;
+.mission-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-decoration: none;
 }
 
-.navbar__logo {
-    width: 100%;
-    max-width: 10rem;
-    z-index: 100;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    padding: .5rem 0;
-    margin: 0;
+.mission-navbar__logo {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #e2e8f0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.78), rgba(34, 211, 238, 0.36));
+  border: 1px solid rgba(34, 211, 238, 0.72);
+  border-radius: 8px;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.2);
 }
 
-@media screen and (max-width: 768px) {
-    .navbar__logo {
-        left: 30%;
-        top: .25rem;
-    }
+.mission-navbar__telemetry {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  min-width: 0;
+  padding: 8px 14px;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.42);
+  border: 1px solid rgba(51, 65, 85, 0.75);
+  border-radius: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mission-navbar__telemetry span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mission-navbar__pulse {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  background: #22c55e;
+  border-radius: 999px;
+  box-shadow: 0 0 14px rgba(34, 197, 94, 0.72);
+}
+
+.mission-navbar__pulse--preview {
+  background: #3b82f6;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.72);
+}
+
+.mission-navbar__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.mission-navbar__actions button,
+.mission-navbar__actions a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: #e2e8f0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.mission-navbar__actions button:hover,
+.mission-navbar__actions button:focus-visible,
+.mission-navbar__actions a:hover,
+.mission-navbar__actions a:focus-visible {
+  color: #22d3ee;
+  background: rgba(15, 23, 42, 0.65);
+  border-color: rgba(34, 211, 238, 0.55);
+}
+
+@media (max-width: 860px) {
+  .mission-navbar {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    height: auto;
+    min-height: var(--mission-nav-height);
+    padding: 10px 16px;
+  }
+
+  .mission-navbar__telemetry {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+    order: 3;
+  }
+
+  .mission-navbar__actions {
+    gap: 6px;
+  }
+}
+
+@media (max-width: 520px) {
+  .mission-navbar__brand span:last-child {
+    display: none;
+  }
+
+  .mission-navbar__actions button,
+  .mission-navbar__actions a {
+    width: 36px;
+    height: 36px;
+  }
 }

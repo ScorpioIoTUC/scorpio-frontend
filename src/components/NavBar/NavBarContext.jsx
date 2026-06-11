@@ -1,6 +1,5 @@
-import { createContext, useContext, useState } from 'react';
-
-const NavbarContext = createContext();
+import { useState } from 'react';
+import { NavbarContext } from './NavbarContextObject';
 
 export function NavbarProvider({ children }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,5 +9,3 @@ export function NavbarProvider({ children }) {
     </NavbarContext.Provider>
   );
 };
-
-export const useNavbarContext = () => useContext(NavbarContext);

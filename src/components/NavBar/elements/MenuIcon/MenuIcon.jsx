@@ -1,8 +1,7 @@
 import './MenuIcon.css';
-import { useNavbarContext } from "../../NavbarContext";
+import { useNavbarContext } from "../../useNavbarContext";
 
 function MenuIcon() {
-    const ctx = useNavbarContext();
     const { isOpen, setIsOpen } = useNavbarContext();
     const navToggle = () => {
         setIsOpen(!isOpen);
