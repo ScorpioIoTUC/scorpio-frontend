@@ -1,12 +1,12 @@
 .station-marker {
-  --station-color: #ef4444;
-  --station-glow: rgba(239, 68, 68, 0.65);
+  --station-color: #64748b;
+  --station-glow: rgba(100, 116, 139, 0.65);
 
   position: relative;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   color: var(--station-color);
   background: transparent;
@@ -33,64 +33,25 @@
 }
 
 .station-marker--offline {
-  --station-color: #ef4444;
-  --station-glow: rgba(239, 68, 68, 0.7);
+  --station-color: #64748b;
+  --station-glow: rgba(100, 116, 139, 0.7);
 }
 
-/* Contenedor visual de la antena */
-.station-marker__antenna {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  filter: drop-shadow(0 0 8px var(--station-glow));
-}
-
-/* Pelota superior: verde/roja según status */
-.station-marker__status-dot {
-  position: absolute;
-  top: 3px;
-  left: 50%;
-  width: 13px;
-  height: 13px;
+.station-marker__dot {
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 35% 30%, #ffffff 0 9%, var(--station-color) 38%, #020617 120%);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.96) 0 8%, var(--station-color) 38%, #020617 118%);
+  border: 2px solid rgba(226, 232, 240, 0.9);
   box-shadow:
-    0 0 8px var(--station-glow),
-    0 0 18px var(--station-glow),
-    inset 0 0 5px rgba(255, 255, 255, 0.35);
-  transform: translateX(-50%);
+    0 0 0 7px rgba(59, 130, 246, 0.08),
+    0 0 12px var(--station-glow),
+    0 0 26px var(--station-glow),
+    inset 0 0 7px rgba(255, 255, 255, 0.38);
 }
 
-/* Palo de antena */
-.station-marker__mast {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  width: 2px;
-  height: 15px;
-  border-radius: 999px;
-  background: rgba(226, 232, 240, 0.96);
-  box-shadow: 0 0 6px rgba(226, 232, 240, 0.45);
-  transform: translateX(-50%);
-}
-
-/* Base pequeña */
-.station-marker__base {
-  position: absolute;
-  bottom: 3px;
-  left: 50%;
-  width: 14px;
-  height: 2px;
-  border-radius: 999px;
-  background: rgba(226, 232, 240, 0.9);
-  box-shadow: 0 0 6px rgba(226, 232, 240, 0.35);
-  transform: translateX(-50%);
-}
-
-.station-marker--selected .station-marker__status-dot {
+.station-marker--selected .station-marker__dot {
   animation: station-marker-pulse 1.4s ease-in-out infinite;
 }
 
@@ -136,6 +97,7 @@
     box-shadow:
       0 0 8px var(--station-glow),
       0 0 18px var(--station-glow),
+      0 0 0 7px rgba(59, 130, 246, 0.08),
       inset 0 0 5px rgba(255, 255, 255, 0.35);
   }
 
@@ -143,6 +105,7 @@
     box-shadow:
       0 0 13px var(--station-glow),
       0 0 28px var(--station-glow),
+      0 0 0 10px rgba(59, 130, 246, 0.12),
       inset 0 0 6px rgba(255, 255, 255, 0.45);
   }
 
@@ -150,6 +113,7 @@
     box-shadow:
       0 0 8px var(--station-glow),
       0 0 18px var(--station-glow),
+      0 0 0 7px rgba(59, 130, 246, 0.08),
       inset 0 0 5px rgba(255, 255, 255, 0.35);
   }
 }

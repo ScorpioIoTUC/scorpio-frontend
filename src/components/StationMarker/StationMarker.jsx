@@ -23,11 +23,7 @@ export function createStationMarkerElement(station, isSelected, onSelect) {
   )
 
   marker.innerHTML = `
-    <span class="station-marker__antenna" aria-hidden="true">
-      <span class="station-marker__status-dot"></span>
-      <span class="station-marker__mast"></span>
-      <span class="station-marker__base"></span>
-    </span>
+    <span class="station-marker__dot" aria-hidden="true"></span>
 
     <span class="station-marker__tooltip">
       <strong>${station.name || station.uuid || station.id}</strong>

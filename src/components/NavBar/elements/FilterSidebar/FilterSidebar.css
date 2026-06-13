@@ -121,6 +121,12 @@
   gap: 8px;
 }
 
+.checkbox-group--compact {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
 .checkbox-label {
   display: flex;
   align-items: center;
@@ -134,6 +140,18 @@
   cursor: pointer;
 }
 
+.checkbox-label span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.checkbox-label small {
+  color: #64748b;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+}
+
 .checkbox-label input[type='checkbox'] {
   width: 15px;
   height: 15px;
@@ -143,6 +161,14 @@
 
 .checkbox-label:hover {
   border-color: rgba(34, 211, 238, 0.58);
+}
+
+.checkbox-label--readonly {
+  cursor: default;
+}
+
+.checkbox-label--readonly:hover {
+  border-color: rgba(51, 65, 85, 0.58);
 }
 
 .filter-empty {

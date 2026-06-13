@@ -5,7 +5,16 @@ import { Menu, MenuToggle } from './elements/Menu/Menu.jsx'
 import { FilterSidebar } from './elements/FilterSidebar/FilterSidebar.jsx'
 import { NavbarProvider } from './NavbarContext.jsx'
 
-export default function Navbar({ stations = [], selectedStationIds = [], onSelectedStationIdsChange }) {
+export default function Navbar({
+  stations = [],
+  satellites = [],
+  selectedStationIds = [],
+  satelliteFilters = { displayName: '', noradId: '' },
+  isSearchingSatellites = false,
+  hasActiveSatelliteSearch = false,
+  onSelectedStationIdsChange,
+  onSatelliteFiltersChange,
+}) {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   return (
@@ -42,8 +51,13 @@ export default function Navbar({ stations = [], selectedStationIds = [], onSelec
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         stations={stations}
+        satellites={satellites}
         selectedStationIds={selectedStationIds}
+        satelliteFilters={satelliteFilters}
+        isSearchingSatellites={isSearchingSatellites}
+        hasActiveSatelliteSearch={hasActiveSatelliteSearch}
         onSelectedStationIdsChange={onSelectedStationIdsChange}
+        onSatelliteFiltersChange={onSatelliteFiltersChange}
       />
     </NavbarProvider>
   )

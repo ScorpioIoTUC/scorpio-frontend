@@ -13,16 +13,21 @@ export const FilterSidebar = ({
   isOpen,
   onClose,
   stations = [],
+  satellites = [],
   selectedStationIds = [],
+  satelliteFilters = { displayName: '', noradId: '' },
+  isSearchingSatellites = false,
+  hasActiveSatelliteSearch = false,
   onSelectedStationIdsChange,
+  onSatelliteFiltersChange,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('')
+  const [stationSearchTerm, setStationSearchTerm] = useState('')
   const activeStations = useMemo(
     () =>
       stations
         .filter(isStationOnline)
-        .filter((station) => (station.name || '').toLowerCase().includes(searchTerm.trim().toLowerCase())),
-    [stations, searchTerm],
+        .filter((station) => (station.name || '').toLowerCase().includes(stationSearchTerm.trim().toLowerCase())),
+    [stations, stationSearchTerm],
   )
   const selectedIds = new Set(selectedStationIds.map(String))
 
@@ -39,9 +44,17 @@ export const FilterSidebar = ({
     onSelectedStationIdsChange?.(Array.from(nextIds))
   }
 
+  function updateSatelliteFilter(name, value) {
+    onSatelliteFiltersChange?.({
+      ...satelliteFilters,
+      [name]: value,
+    })
+  }
+
   function clearFilters() {
-    setSearchTerm('')
+    setStationSearchTerm('')
     onSelectedStationIdsChange?.([])
+    onSatelliteFiltersChange?.({ displayName: '', noradId: '' })
   }
 
   return (
@@ -61,8 +74,8 @@ export const FilterSidebar = ({
           Buscar estacion activa
           <input
             type="search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
+            value={stationSearchTerm}
+            onChange={(event) => setStationSearchTerm(event.target.value)}
             placeholder="Nombre de estacion"
           />
         </label>
@@ -95,8 +108,58 @@ export const FilterSidebar = ({
           </div>
         </div>
 
+        <label className="filter-search">
+          Buscar satelite por nombre
+          <input
+            type="search"
+            value={satelliteFilters.displayName}
+            onChange={(event) => updateSatelliteFilter('displayName', event.target.value)}
+            placeholder="Display name"
+          />
+        </label>
+
+        <label className="filter-search">
+          Buscar satelite por NORAD
+          <input
+            type="search"
+            inputMode="numeric"
+            value={satelliteFilters.noradId}
+            onChange={(event) => updateSatelliteFilter('noradId', event.target.value)}
+            placeholder="NORAD ID"
+          />
+        </label>
+
+        <div className="filter-section">
+          <div className="filter-title">
+            <span>Satellites</span>
+            <strong>{hasActiveSatelliteSearch ? `${satellites.length} results` : 'Initial 100'}</strong>
+          </div>
+
+          <div className="checkbox-group checkbox-group--compact">
+            {isSearchingSatellites && <p className="filter-empty">Searching satellites...</p>}
+
+            {!isSearchingSatellites &&
+              satellites.map((satellite) => (
+                <div className="checkbox-label checkbox-label--readonly" key={satellite.noradId || satellite.id}>
+                  <span>
+                    {satellite.displayName || `NORAD ${satellite.noradId}`}
+                    <small>NORAD {satellite.noradId || 'N/A'}</small>
+                  </span>
+                </div>
+              ))}
+
+            {!isSearchingSatellites && !satellites.length && (
+              <p className="filter-empty">No satellites match this filter.</p>
+            )}
+          </div>
+        </div>
+
         <div className="filter-actions">
-          <button type="button" onClick={clearFilters} disabled={!selectedIds.size && !searchTerm}>
+          <button
+            type="button"
+            onClick={clearFilters}
+            disabled={!selectedIds.size && !stationSearchTerm && !satelliteFilters.displayName && !satelliteFilters.noradId}
+          >
             Clear
           </button>
           <button type="button" onClick={onClose}>
