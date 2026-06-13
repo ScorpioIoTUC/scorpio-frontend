@@ -1,5 +1,6 @@
 import PacketList from './PacketList'
 import './StationPanel.css'
+import StationMonthlyChart from './StationMonthlyChart'
 
 const dateFormatter = new Intl.DateTimeFormat('en', {
   month: 'short',
@@ -109,6 +110,9 @@ export default function StationPanel({
   onPacketPageChange,
   isLoadingPackets,
   packetError,
+  monthlyPacketStats,
+  isLoadingMonthlyStats,
+  monthlyStatsError,
   onSelectPacket,
 }) {
   const isOnline = isStationOnline(station)
@@ -138,6 +142,15 @@ export default function StationPanel({
               <DetailRow label="Created" value={formatDate(station.createdAt)} />
               <DetailRow label="Last Seen" value={formatDate(station.lastSeen)} />
             </dl>
+          </section>
+
+          <section className="station-panel__section">
+            <h3>Statistics</h3>
+            <StationMonthlyChart
+              stats={monthlyPacketStats}
+              isLoading={isLoadingMonthlyStats}
+              error={monthlyStatsError}
+            />
           </section>
 
           <section className="station-panel__section">

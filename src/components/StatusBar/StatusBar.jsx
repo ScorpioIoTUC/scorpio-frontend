@@ -9,7 +9,7 @@ export default function StatusBar({ activeStations, packetCount, isLoading, erro
       </div>
       <div>
         <span>Received telemetry packets:</span>
-        <strong>{packetCount.toLocaleString()}</strong>
+        <strong>{isLoading ? '...' : packetCount.toLocaleString()}</strong>
       </div>
       {error && <p>{error} Using preview telemetry.</p>}
     </footer>

@@ -102,6 +102,14 @@ export default function PacketDetailPanel({ station, packet, isOpen, onBack, onC
               <DetailRow label="Frequency error" value={formatValue(packet.frequencyError, ' Hz')} />
             </dl>
           </section>
+
+          <section className="station-panel__section">
+            <h3>Payload</h3>
+            <dl>
+              <DetailRow label="Decoded" value={decodePayload(packet.rawPayload)} />
+              <DetailRow label="Raw bytes" value={Array.isArray(packet.rawPayload) ? packet.rawPayload.join(', ') : 'N/A'} />
+            </dl>
+          </section>
         </div>
       ) : (
         <p className="station-panel__empty">Selecciona un paquete para ver su detalle.</p>

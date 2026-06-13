@@ -36,6 +36,25 @@ export async function getUserById(userId) {
   return request(`/users/${userId}`)
 }
 
+export async function getUsers({ page = 1, limit = 5 } = {}) {
+  const data = await request(`/users?page=${page}&limit=${limit}`)
+  const users = Array.isArray(data) ? data : data?.data
+
+  if (!Array.isArray(users)) {
+    throw new Error('El servicio de usuarios retorno una respuesta inesperada.')
+  }
+
+  return {
+    users,
+    pagination: data?.pagination || {
+      page,
+      limit,
+      total: users.length,
+      totalPages: 1,
+    },
+  }
+}
+
 export async function updateUser(userId, payload) {
   return request(`/users/${userId}`, {
     method: 'PATCH',

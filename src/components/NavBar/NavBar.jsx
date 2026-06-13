@@ -3,9 +3,9 @@ import './Navbar.css'
 import { useState } from 'react'
 import { Menu, MenuToggle } from './elements/Menu/Menu.jsx'
 import { FilterSidebar } from './elements/FilterSidebar/FilterSidebar.jsx'
-import { NavbarProvider } from './NavBarContext.jsx'
+import { NavbarProvider } from './NavbarContext.jsx'
 
-export default function Navbar() {
+export default function Navbar({ stations = [], selectedStationIds = [], onSelectedStationIdsChange }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   return (
@@ -16,24 +16,8 @@ export default function Navbar() {
           href="/"
           aria-label="SCORPIO home"
         >
-          {/* <span className="mission-navbar__logo" aria-hidden="true">
-            S
-          </span> */}
           <span>SCORPIO</span>
         </a>
-
-        {/* <div
-          className="mission-navbar__telemetry"
-          role="status"
-          aria-live="polite"
-        >
-          <span
-            className={`mission-navbar__pulse ${isPreviewData ? 'mission-navbar__pulse--preview' : ''
-              }`}
-          />
-          <span>{telemetryMessage}</span>
-        </div> */}
-
         <nav
           className="mission-navbar__actions"
           aria-label="Primary navigation"
@@ -57,6 +41,9 @@ export default function Navbar() {
       <FilterSidebar
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
+        stations={stations}
+        selectedStationIds={selectedStationIds}
+        onSelectedStationIdsChange={onSelectedStationIdsChange}
       />
     </NavbarProvider>
   )

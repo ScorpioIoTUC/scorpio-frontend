@@ -166,6 +166,98 @@
   padding: 12px;
 }
 
+.station-chart {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+
+.station-chart__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.station-chart__summary strong {
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.station-chart__canvas {
+  overflow-x: auto;
+  padding: 10px 8px 6px;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.58), rgba(2, 6, 23, 0.62)),
+    radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.11), transparent 58%);
+  border: 1px solid rgba(51, 65, 85, 0.54);
+  border-radius: 8px;
+}
+
+.station-chart svg {
+  display: block;
+  width: 100%;
+  min-width: 340px;
+  height: auto;
+}
+
+.station-chart__grid {
+  stroke: rgba(148, 163, 184, 0.16);
+  stroke-width: 1;
+}
+
+.station-chart__axis {
+  stroke: rgba(148, 163, 184, 0.38);
+  stroke-width: 1;
+}
+
+.station-chart__axis-label,
+.station-chart__caption {
+  fill: #94a3b8;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+.station-chart rect {
+  filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.22));
+  transition:
+    opacity 160ms ease,
+    filter 160ms ease;
+}
+
+.station-chart rect:hover {
+  opacity: 0.86;
+  filter: drop-shadow(0 0 9px rgba(34, 211, 238, 0.44));
+}
+
+.station-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 10px;
+  max-height: 72px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.station-chart__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: #cbd5e1;
+  font-size: 0.68rem;
+}
+
+.station-chart__legend i {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  box-shadow: 0 0 8px currentColor;
+}
+
 .packet-list__meta {
   margin: 0;
   padding: 10px 12px 0;
@@ -227,13 +319,13 @@
   font-size: 0.82rem;
 }
 
-.packet-list__ok {
+.packet-list__item dl div .packet-list__ok {
   color: #22c55e;
 }
-
-.packet-list__error {
+.packet-list__item dl div .packet-list__error {
   color: #ef4444;
 }
+
 
 .packet-list__detail-button {
   justify-self: start;

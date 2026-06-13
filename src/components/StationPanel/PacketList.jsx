@@ -18,27 +18,6 @@ function formatPacketDate(value) {
   })
 }
 
-function decodePayload(rawPayload) {
-  if (!rawPayload) return 'No payload'
-
-  if (Array.isArray(rawPayload)) {
-    return rawPayload
-      .map((code) => String.fromCharCode(Number(code)))
-      .join('')
-      .replace(/[^\x20-\x7E]/g, '.')
-  }
-
-  if (typeof rawPayload === 'string') {
-    try {
-      return atob(rawPayload)
-    } catch {
-      return rawPayload
-    }
-  }
-
-  return JSON.stringify(rawPayload)
-}
-
 function PacketRow({ packet, onSelectPacket }) {
   return (
     <article className="packet-list__item">
@@ -61,7 +40,7 @@ function PacketRow({ packet, onSelectPacket }) {
         </div>
       </dl>
       <button className="packet-list__detail-button" type="button" onClick={() => onSelectPacket(packet)}>
-        Mas detalle
+        More details
       </button>
     </article>
   )
