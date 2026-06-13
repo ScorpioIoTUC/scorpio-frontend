@@ -1,0 +1,14 @@
+.auth-page--signup .auth-card {
+  margin-block: 22px;
+}
+
+.auth-form--signup {
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .auth-page--signup {
+    place-items: start center;
+    overflow-y: auto;
+  }
+}

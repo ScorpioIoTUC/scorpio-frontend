@@ -1,0 +1,119 @@
+.station-marker {
+  --station-color: #64748b;
+  --station-glow: rgba(100, 116, 139, 0.65);
+
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--station-color);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto !important;
+  transform: translate(-50%, -50%);
+  transition:
+    filter 160ms ease,
+    transform 160ms ease;
+}
+
+.station-marker:hover,
+.station-marker:focus-visible,
+.station-marker--selected {
+  filter: drop-shadow(0 0 10px var(--station-glow));
+  transform: translate(-50%, -50%) scale(1.14);
+  z-index: 5;
+}
+
+.station-marker--online {
+  --station-color: #22c55e;
+  --station-glow: rgba(34, 197, 94, 0.75);
+}
+
+.station-marker--offline {
+  --station-color: #64748b;
+  --station-glow: rgba(100, 116, 139, 0.7);
+}
+
+.station-marker__dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.96) 0 8%, var(--station-color) 38%, #020617 118%);
+  border: 2px solid rgba(226, 232, 240, 0.9);
+  box-shadow:
+    0 0 0 7px rgba(59, 130, 246, 0.08),
+    0 0 12px var(--station-glow),
+    0 0 26px var(--station-glow),
+    inset 0 0 7px rgba(255, 255, 255, 0.38);
+}
+
+.station-marker--selected .station-marker__dot {
+  animation: station-marker-pulse 1.4s ease-in-out infinite;
+}
+
+.station-marker__tooltip {
+  position: absolute;
+  bottom: 38px;
+  left: 50%;
+  display: grid;
+  min-width: 132px;
+  padding: 8px 10px;
+  color: #e2e8f0;
+  font: 12px/1.35 var(--sans);
+  text-align: left;
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(51, 65, 85, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 16px 38px rgba(2, 6, 23, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 7px);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.station-marker__tooltip strong {
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.station-marker__tooltip span {
+  color: #94a3b8;
+}
+
+.station-marker:hover .station-marker__tooltip,
+.station-marker:focus-visible .station-marker__tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes station-marker-pulse {
+  0% {
+    box-shadow:
+      0 0 8px var(--station-glow),
+      0 0 18px var(--station-glow),
+      0 0 0 7px rgba(59, 130, 246, 0.08),
+      inset 0 0 5px rgba(255, 255, 255, 0.35);
+  }
+
+  50% {
+    box-shadow:
+      0 0 13px var(--station-glow),
+      0 0 28px var(--station-glow),
+      0 0 0 10px rgba(59, 130, 246, 0.12),
+      inset 0 0 6px rgba(255, 255, 255, 0.45);
+  }
+
+  100% {
+    box-shadow:
+      0 0 8px var(--station-glow),
+      0 0 18px var(--station-glow),
+      0 0 0 7px rgba(59, 130, 246, 0.08),
+      inset 0 0 5px rgba(255, 255, 255, 0.35);
+  }
+}
