@@ -1,7 +1,13 @@
-import { MeshPhongMaterial, ShaderMaterial, TextureLoader, Vector2 } from 'three'
+import { CanvasTexture, MeshPhongMaterial, ShaderMaterial, TextureLoader, Vector2 } from 'three'
 
-const DAY_TEXTURE = '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg'
-const NIGHT_TEXTURE = '//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg'
+const DAY_TEXTURES = [
+  'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg',
+  'https://unpkg.com/three-globe/example/img/earth-day.jpg',
+]
+const NIGHT_TEXTURES = [
+  'https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg',
+  'https://unpkg.com/three-globe/example/img/earth-night.jpg',
+]
 
 const dayNightShader = {
   vertexShader: `
@@ -103,14 +109,91 @@ export function sunPositionAt(date = new Date()) {
   return [longitude, latitude]
 }
 
+function loadTexture(loader, url) {
+  return new Promise((resolve, reject) => {
+    loader.load(url, resolve, undefined, reject)
+  })
+}
+
+async function loadTextureFromSources(loader, sources) {
+  for (const source of sources) {
+    try {
+      return await loadTexture(loader, source)
+    } catch {
+      // Try the next mirror before falling back to a local procedural texture.
+    }
+  }
+
+  return null
+}
+
+function drawLand(ctx, points, scaleX, scaleY) {
+  ctx.beginPath()
+  points.forEach(([x, y], index) => {
+    const px = x * scaleX
+    const py = y * scaleY
+
+    if (index === 0) {
+      ctx.moveTo(px, py)
+    } else {
+      ctx.lineTo(px, py)
+    }
+  })
+  ctx.closePath()
+  ctx.fill()
+}
+
+function createProceduralEarthTexture({ night = false } = {}) {
+  const canvas = document.createElement('canvas')
+  canvas.width = 1024
+  canvas.height = 512
+  const ctx = canvas.getContext('2d')
+  const scaleX = canvas.width / 1024
+  const scaleY = canvas.height / 512
+  const ocean = ctx.createLinearGradient(0, 0, 0, canvas.height)
+
+  ocean.addColorStop(0, night ? '#061225' : '#0b3f82')
+  ocean.addColorStop(0.5, night ? '#071b33' : '#0d5fa8')
+  ocean.addColorStop(1, night ? '#020817' : '#082f63')
+  ctx.fillStyle = ocean
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  ctx.fillStyle = night ? 'rgba(31, 79, 70, 0.6)' : '#2f7d4f'
+  drawLand(ctx, [[195, 130], [265, 95], [335, 132], [325, 230], [270, 292], [205, 245]], scaleX, scaleY)
+  drawLand(ctx, [[315, 250], [390, 270], [410, 390], [365, 460], [318, 386], [295, 300]], scaleX, scaleY)
+  drawLand(ctx, [[470, 118], [575, 92], [675, 140], [650, 235], [535, 250], [455, 205]], scaleX, scaleY)
+  drawLand(ctx, [[610, 210], [705, 230], [735, 330], [655, 395], [575, 340]], scaleX, scaleY)
+  drawLand(ctx, [[705, 120], [825, 105], [910, 185], [870, 265], [750, 240]], scaleX, scaleY)
+  drawLand(ctx, [[805, 330], [888, 320], [930, 380], [875, 430], [795, 395]], scaleX, scaleY)
+
+  ctx.fillStyle = night ? 'rgba(148, 163, 184, 0.45)' : 'rgba(226, 232, 240, 0.75)'
+  ctx.fillRect(0, 0, canvas.width, 28 * scaleY)
+  ctx.fillRect(0, canvas.height - 34 * scaleY, canvas.width, 34 * scaleY)
+
+  if (night) {
+    ctx.fillStyle = 'rgba(34, 211, 238, 0.55)'
+    for (let index = 0; index < 180; index += 1) {
+      const x = ((index * 97) % 1024) * scaleX
+      const y = (80 + ((index * 53) % 330)) * scaleY
+      ctx.fillRect(x, y, 1.2, 1.2)
+    }
+  }
+
+  const texture = new CanvasTexture(canvas)
+  texture.needsUpdate = true
+  return texture
+}
+
 export async function createDayNightMaterial() {
   const loader = new TextureLoader()
   loader.setCrossOrigin('anonymous')
 
-  const [dayTexture, nightTexture] = await Promise.all([
-    loader.loadAsync(DAY_TEXTURE),
-    loader.loadAsync(NIGHT_TEXTURE),
+  const [loadedDayTexture, loadedNightTexture] = await Promise.all([
+    loadTextureFromSources(loader, DAY_TEXTURES),
+    loadTextureFromSources(loader, NIGHT_TEXTURES),
   ])
+  const dayTexture = loadedDayTexture || createProceduralEarthTexture()
+  const nightTexture = loadedNightTexture || createProceduralEarthTexture({ night: true })
 
   const material = new ShaderMaterial({
     uniforms: {
@@ -128,7 +211,7 @@ export async function createDayNightMaterial() {
 
 export function createFallbackGlobeMaterial() {
   return new MeshPhongMaterial({
-    color: '#0f3b70',
+    map: createProceduralEarthTexture(),
     emissive: '#020617',
     shininess: 8,
   })
