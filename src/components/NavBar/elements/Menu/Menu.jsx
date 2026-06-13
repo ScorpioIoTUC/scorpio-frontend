@@ -13,16 +13,13 @@ export const Menu = () => {
 };
 
 const MenuItems = () => {
-    const { setIsOpen } = useNavbarContext();
-
     return (
         <>
-            <div className="menu-header">
+            <div className="menu-section">
+                <h3>Cuenta</h3>
+                <a href="/login">Login</a>
+                <a href="/signup">Register</a>
             </div>
-            
-            <a href="/" onClick={() => setIsOpen(false)}>Inicio</a>
-            <a href="/login" onClick={() => setIsOpen(false)}>Ingresar</a>
-            <a href="/signup" onClick={() => setIsOpen(false)}>Registrar</a>
         </>
     );
 };

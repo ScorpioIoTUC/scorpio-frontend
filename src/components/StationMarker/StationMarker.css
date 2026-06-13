@@ -1,106 +1,119 @@
 .station-marker {
+  --station-color: #ef4444;
+  --station-glow: rgba(239, 68, 68, 0.65);
+
   position: relative;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
   padding: 0;
+  color: var(--station-color);
   background: transparent;
   border: 0;
   cursor: pointer;
+  pointer-events: auto !important;
   transform: translate(-50%, -50%);
   transition:
-    transform 180ms ease,
-    filter 180ms ease;
+    filter 160ms ease,
+    transform 160ms ease;
 }
 
 .station-marker:hover,
+.station-marker:focus-visible,
 .station-marker--selected {
-  transform: translate(-50%, -50%) scale(1.12);
+  filter: drop-shadow(0 0 10px var(--station-glow));
+  transform: translate(-50%, -50%) scale(1.14);
   z-index: 5;
 }
 
-.station-marker__pulse {
+.station-marker--online {
+  --station-color: #22c55e;
+  --station-glow: rgba(34, 197, 94, 0.75);
+}
+
+.station-marker--offline {
+  --station-color: #ef4444;
+  --station-glow: rgba(239, 68, 68, 0.7);
+}
+
+/* Contenedor visual de la antena */
+.station-marker__antenna {
   position: absolute;
-  width: 36px;
-  height: 36px;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 0 8px var(--station-glow));
+}
+
+/* Pelota superior: verde/roja según status */
+.station-marker__status-dot {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 13px;
+  height: 13px;
   border-radius: 999px;
-  opacity: 0.65;
-  animation: station-pulse 2s ease-out infinite;
+  background:
+    radial-gradient(circle at 35% 30%, #ffffff 0 9%, var(--station-color) 38%, #020617 120%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 0 8px var(--station-glow),
+    0 0 18px var(--station-glow),
+    inset 0 0 5px rgba(255, 255, 255, 0.35);
+  transform: translateX(-50%);
 }
 
-.station-marker--online .station-marker__pulse {
-  background: rgba(34, 197, 94, 0.22);
-  box-shadow: 0 0 22px rgba(34, 197, 94, 0.55);
-}
-
-.station-marker--offline .station-marker__pulse {
-  background: rgba(148, 163, 184, 0.14);
-  box-shadow: 0 0 18px rgba(148, 163, 184, 0.28);
-  animation: none;
-}
-
-.station-marker__core {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: #22d3ee;
-  border: 2px solid #e2e8f0;
-  border-radius: 50%;
-  box-shadow: 0 0 18px rgba(34, 211, 238, 0.88);
-}
-
-.station-marker--offline .station-marker__core {
-  background: #64748b;
-  box-shadow: 0 0 14px rgba(148, 163, 184, 0.5);
-}
-
+/* Palo de antena */
 .station-marker__mast {
   position: absolute;
-  bottom: 5px;
-  width: 3px;
-  height: 16px;
-  background: #cbd5e1;
+  top: 15px;
+  left: 50%;
+  width: 2px;
+  height: 15px;
   border-radius: 999px;
+  background: rgba(226, 232, 240, 0.96);
+  box-shadow: 0 0 6px rgba(226, 232, 240, 0.45);
+  transform: translateX(-50%);
 }
 
-.station-marker__dish {
+/* Base pequeña */
+.station-marker__base {
   position: absolute;
-  bottom: 14px;
-  width: 24px;
-  height: 14px;
-  border: 3px solid #cbd5e1;
-  border-top: 0;
-  border-radius: 0 0 22px 22px;
-  transform: rotate(-34deg);
-  transform-origin: center;
+  bottom: 3px;
+  left: 50%;
+  width: 14px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(226, 232, 240, 0.9);
+  box-shadow: 0 0 6px rgba(226, 232, 240, 0.35);
+  transform: translateX(-50%);
 }
 
-.station-marker--selected .station-marker__dish,
-.station-marker:hover .station-marker__dish {
-  border-color: #22d3ee;
+.station-marker--selected .station-marker__status-dot {
+  animation: station-marker-pulse 1.4s ease-in-out infinite;
 }
 
 .station-marker__tooltip {
   position: absolute;
-  bottom: 46px;
+  bottom: 38px;
   left: 50%;
   display: grid;
-  min-width: 138px;
-  padding: 10px 12px;
+  min-width: 132px;
+  padding: 8px 10px;
   color: #e2e8f0;
   font: 12px/1.35 var(--sans);
   text-align: left;
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(15, 23, 42, 0.94);
   border: 1px solid rgba(51, 65, 85, 0.95);
   border-radius: 8px;
   box-shadow: 0 16px 38px rgba(2, 6, 23, 0.45);
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, 8px);
+  transform: translate(-50%, 7px);
   transition:
-    opacity 160ms ease,
-    transform 160ms ease;
+    opacity 150ms ease,
+    transform 150ms ease;
 }
 
 .station-marker__tooltip strong {
@@ -118,14 +131,25 @@
   transform: translate(-50%, 0);
 }
 
-@keyframes station-pulse {
+@keyframes station-marker-pulse {
   0% {
-    transform: scale(0.55);
-    opacity: 0.75;
+    box-shadow:
+      0 0 8px var(--station-glow),
+      0 0 18px var(--station-glow),
+      inset 0 0 5px rgba(255, 255, 255, 0.35);
+  }
+
+  50% {
+    box-shadow:
+      0 0 13px var(--station-glow),
+      0 0 28px var(--station-glow),
+      inset 0 0 6px rgba(255, 255, 255, 0.45);
   }
 
   100% {
-    transform: scale(1.45);
-    opacity: 0;
+    box-shadow:
+      0 0 8px var(--station-glow),
+      0 0 18px var(--station-glow),
+      inset 0 0 5px rgba(255, 255, 255, 0.35);
   }
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import AuthCard from '../../components/AuthCard/AuthCard'
 import { login } from '../../services/authService'
+import { setToken } from '../../services/sessionService'
 import './Login.css'
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -18,11 +19,11 @@ export default function Login() {
 
   function validateForm() {
     if (!formData.email.trim() || !formData.password) {
-      return 'Email and password are required.'
+      return 'Email and password must be provided.'
     }
 
     if (!emailPattern.test(formData.email)) {
-      return 'Enter a valid mission operator email address.'
+      return 'You must enter a valid email.'
     }
 
     return ''
@@ -42,7 +43,8 @@ export default function Login() {
 
     try {
       const response = await login(formData.email.trim(), formData.password)
-      localStorage.setItem('scorpio_token', response.token)
+      setToken(response.token)
+      window.location.assign('/dashboard')
     } catch (requestError) {
       setError(requestError.message)
     } finally {
@@ -85,7 +87,7 @@ export default function Login() {
               type="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter secure passphrase"
+              placeholder="Enter a secure password"
               autoComplete="current-password"
               aria-invalid={Boolean(error)}
               required
@@ -104,7 +106,7 @@ export default function Login() {
           </button>
 
           <button className="auth-form__button auth-form__button--secondary" type="button" onClick={goToSignUp}>
-            Go to Sign Up
+            New account
           </button>
         </form>
       </AuthCard>

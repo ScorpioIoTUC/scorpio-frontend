@@ -17,6 +17,12 @@
   box-sizing: border-box;
 }
 
+.auth-card a {
+  padding-top: 2rem;
+  font-size: normal;
+  color: rgba(131, 247, 255, 0.407);
+}
+
 .auth-card::before {
   content: '';
   position: absolute;

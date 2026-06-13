@@ -15,13 +15,14 @@
 }
 
 .mission-navbar__brand {
-  display: inline-flex;
+  display:block;
+  width: 50px;
   align-items: center;
-  gap: 10px;
   color: #ffffff;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-decoration: none;
+  margin: 0;
 }
 
 .mission-navbar__logo {
@@ -37,7 +38,7 @@
 }
 
 .mission-navbar__telemetry {
-  justify-self: center;
+  justify-self: left;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -73,6 +74,7 @@
 
 .mission-navbar__actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 10px;
 }

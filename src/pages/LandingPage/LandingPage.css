@@ -16,8 +16,10 @@
 .landing-page__mission {
   position: relative;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
 }
+
 
 @media (max-width: 860px) {
   .landing-page {

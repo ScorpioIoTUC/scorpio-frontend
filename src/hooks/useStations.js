@@ -53,7 +53,6 @@ export function useStations() {
       try {
         const stationData = await getStations()
         if (!isMounted) return
-
         setStations(stationData)
         setIsPreviewData(false)
       } catch (requestError) {

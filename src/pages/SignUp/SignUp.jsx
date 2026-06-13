@@ -25,19 +25,19 @@ export default function SignUp() {
 
   function validateForm() {
     if (!formData.name.trim() || !formData.email.trim() || !formData.password || !formData.confirmPassword) {
-      return 'All fields are required.'
+      return 'All the fields must be provided.'
     }
 
     if (!emailPattern.test(formData.email)) {
-      return 'Enter a valid mission operator email address.'
+      return 'You must enter a valid email.'
     }
 
     if (formData.password.length < 6) {
-      return 'Password must contain at least 6 characters.'
+      return 'The password require at least 6 characters.'
     }
 
     if (formData.password !== formData.confirmPassword) {
-      return 'Passwords must match.'
+      return 'The passwords do not match.'
     }
 
     return ''
@@ -58,7 +58,7 @@ export default function SignUp() {
 
     try {
       await signup(formData.name.trim(), formData.email.trim(), formData.password)
-      setSuccessMessage('Account created. Redirecting to secure login...')
+      setSuccessMessage('Account created. Redirecting to login panel...')
       window.setTimeout(() => {
         window.location.assign('/login')
       }, 1200)
@@ -82,7 +82,7 @@ export default function SignUp() {
       <AuthCard>
         <form className="auth-form auth-form--signup" onSubmit={handleSubmit} noValidate>
           <div className="auth-form__field">
-            <label htmlFor="signup-name">Name</label>
+            <label htmlFor="signup-name">User name</label>
             <input
               id="signup-name"
               name="name"
@@ -119,7 +119,7 @@ export default function SignUp() {
               type="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Minimum 6 characters"
+              placeholder="Min 6 characters required"
               autoComplete="new-password"
               aria-invalid={Boolean(error)}
               required
@@ -127,14 +127,14 @@ export default function SignUp() {
           </div>
 
           <div className="auth-form__field">
-            <label htmlFor="signup-confirm-password">Confirm Password</label>
+            <label htmlFor="signup-confirm-password">Confirm password</label>
             <input
               id="signup-confirm-password"
               name="confirmPassword"
               type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              placeholder="Repeat secure passphrase"
+              placeholder="Enter your password again"
               autoComplete="new-password"
               aria-invalid={Boolean(error)}
               required
@@ -155,11 +155,11 @@ export default function SignUp() {
 
           <button className="auth-form__button auth-form__button--primary" type="submit" disabled={isLoading}>
             {isLoading ? <span className="auth-form__loader" aria-hidden="true" /> : null}
-            {isLoading ? 'Creating account...' : 'Create Account'}
+            {isLoading ? 'Creating account...' : 'New account'}
           </button>
 
           <button className="auth-form__button auth-form__button--secondary" type="button" onClick={goToLogin}>
-            Back to Login
+            Login
           </button>
         </form>
       </AuthCard>
