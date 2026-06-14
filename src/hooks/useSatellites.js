@@ -14,11 +14,11 @@ export function useSatellites() {
       setSatelliteError('')
 
       try {
-        const data = await listSatellites({ page: 1, limit: 100 })
+        const { satellites } = await listSatellites({ page: 1, limit: 100 })
 
         if (!isMounted) return
 
-        setSatellites(data)
+        setSatellites(satellites)
       } catch (error) {
         if (!isMounted) return
 

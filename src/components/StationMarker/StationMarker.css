@@ -38,12 +38,12 @@
 }
 
 .station-marker__dot {
-  width: 22px;
-  height: 22px;
+  width: 25px;
+  height: 25px;
   border-radius: 999px;
-  background:
-    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.96) 0 8%, var(--station-color) 38%, #020617 118%);
-  border: 2px solid rgba(226, 232, 240, 0.9);
+  background-color: #3ae378;
+
+  /* border: 2px solid rgba(226, 232, 240, 0.9); */
   box-shadow:
     0 0 0 7px rgba(59, 130, 246, 0.08),
     0 0 12px var(--station-glow),
@@ -53,6 +53,17 @@
 
 .station-marker--selected .station-marker__dot {
   animation: station-marker-pulse 1.4s ease-in-out infinite;
+}
+
+.station-marker--receiving {
+  z-index: 6;
+  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.85));
+}
+
+.station-marker--receiving .station-marker__dot {
+  --station-color: #22d3ee;
+  --station-glow: rgba(34, 211, 238, 0.9);
+  animation: station-marker-packet 700ms ease-in-out infinite;
 }
 
 .station-marker__tooltip {
@@ -115,5 +126,34 @@
       0 0 18px var(--station-glow),
       0 0 0 7px rgba(59, 130, 246, 0.08),
       inset 0 0 5px rgba(255, 255, 255, 0.35);
+  }
+}
+
+@keyframes station-marker-packet {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 7px rgba(34, 211, 238, 0.1),
+      0 0 12px var(--station-glow),
+      0 0 26px var(--station-glow),
+      inset 0 0 7px rgba(255, 255, 255, 0.38);
+  }
+
+  50% {
+    transform: scale(1.28);
+    box-shadow:
+      0 0 0 12px rgba(34, 211, 238, 0.18),
+      0 0 20px var(--station-glow),
+      0 0 42px var(--station-glow),
+      inset 0 0 8px rgba(255, 255, 255, 0.5);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 7px rgba(34, 211, 238, 0.1),
+      0 0 12px var(--station-glow),
+      0 0 26px var(--station-glow),
+      inset 0 0 7px rgba(255, 255, 255, 0.38);
   }
 }

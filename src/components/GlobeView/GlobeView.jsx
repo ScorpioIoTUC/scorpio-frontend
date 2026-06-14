@@ -12,6 +12,7 @@ const DEFAULT_VIEW = { lat: -28, lng: -62, altitude: 1.9 }
 export default function GlobeView({
   stations,
   satellites = [],
+  highlightedStationUuids = [],
   selectedStation,
   selectedSatellite,
   selectedOrbitSatellite,
@@ -23,6 +24,10 @@ export default function GlobeView({
   const containerRef = useRef(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [globeMaterial, setGlobeMaterial] = useState(null)
+  const highlightedStationSet = useMemo(
+    () => new Set(highlightedStationUuids.map(String)),
+    [highlightedStationUuids],
+  )
 
   const stationMarkers = useMemo(
     () =>
@@ -201,7 +206,12 @@ export default function GlobeView({
           htmlAltitude={0.018}
           htmlTransitionDuration={180}
           htmlElement={(station) =>
-            createStationMarkerElement(station, selectedStation?.id === station.id, onStationSelect)
+            createStationMarkerElement(
+              station,
+              selectedStation?.id === station.id,
+              onStationSelect,
+              highlightedStationSet.has(String(station.uuid || station.id)),
+            )
           }
           objectsData={satelliteObjects}
           objectLat="latitude"
