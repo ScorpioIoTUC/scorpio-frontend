@@ -39,10 +39,8 @@
 
 .mission-navbar__telemetry {
   justify-self: left;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   max-width: 100%;
+  width: min(560px, 100%);
   min-width: 0;
   padding: 8px 14px;
   color: #e2e8f0;
@@ -53,9 +51,17 @@
   overflow: hidden;
 }
 
-.mission-navbar__telemetry span:last-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
+.mission-navbar__telemetry-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: max-content;
+  animation: mission-navbar-notice 10s linear forwards;
+  will-change: transform, opacity;
+}
+
+.mission-navbar__telemetry-track span:last-child {
+  overflow: visible;
 }
 
 .mission-navbar__pulse {
@@ -70,6 +76,26 @@
 .mission-navbar__pulse--preview {
   background: #3b82f6;
   box-shadow: 0 0 14px rgba(59, 130, 246, 0.72);
+}
+
+@keyframes mission-navbar-notice {
+  0% {
+    opacity: 0;
+    transform: translateX(115%);
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-115%);
+  }
 }
 
 .mission-navbar__actions {

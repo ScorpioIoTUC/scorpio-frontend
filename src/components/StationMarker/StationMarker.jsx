@@ -4,7 +4,7 @@ function isStationOnline(station) {
   return station?.status === true || station?.status === 'online'
 }
 
-export function createStationMarkerElement(station, isSelected, onSelect) {
+export function createStationMarkerElement(station, isSelected, onSelect, isReceivingPacket = false) {
   const marker = document.createElement('button')
   const isOnline = isStationOnline(station)
 
@@ -13,6 +13,7 @@ export function createStationMarkerElement(station, isSelected, onSelect) {
     'station-marker',
     isOnline ? 'station-marker--online' : 'station-marker--offline',
     isSelected ? 'station-marker--selected' : '',
+    isReceivingPacket ? 'station-marker--receiving' : '',
   ]
     .filter(Boolean)
     .join(' ')

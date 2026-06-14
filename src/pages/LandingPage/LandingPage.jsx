@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import GlobeView from '../../components/GlobeView/GlobeView'
 import Navbar from '../../components/Navbar/Navbar'
 import PacketDetailPanel from '../../components/StationPanel/PacketDetailPanel'
@@ -7,6 +7,7 @@ import StationPanel from '../../components/StationPanel/StationPanel'
 import StatusBar from '../../components/StatusBar/StatusBar'
 import { useLandingStats } from '../../hooks/useLandingStats'
 import { useLiveSatellitePositions } from '../../hooks/useLiveSatellitePositions'
+import { usePacketEvents } from '../../hooks/usePacketEvents'
 import { useSatelliteSearch } from '../../hooks/useSatelliteSearch'
 import { useSatellites } from '../../hooks/useSatellites'
 import { useStationMonthlyPackets } from '../../hooks/useStationMonthlyPackets'
@@ -16,6 +17,7 @@ import './LandingPage.css'
 
 export default function LandingPage() {
   const { stations, isLoading, error, isPreviewData } = useStations()
+  const { highlightedStationUuids, latestPacketEvent } = usePacketEvents()
   const { satellites, satelliteError } = useSatellites()
   const { activeStationsTotal, totalPacketsReceived, isLoadingStats, statsError } = useLandingStats()
   const [selectedStation, setSelectedStation] = useState(null)
@@ -24,11 +26,17 @@ export default function LandingPage() {
   const [packetPage, setPacketPage] = useState(1)
   const [selectedStationFilterIds, setSelectedStationFilterIds] = useState([])
   const [satelliteFilters, setSatelliteFilters] = useState({ displayName: '', noradId: '' })
+  const [telemetryNotice, setTelemetryNotice] = useState(null)
   const {
     satelliteSearchResults,
+    satelliteSearchPagination,
+    satelliteSearchPage,
+    satelliteSearchLimit,
     isSearchingSatellites,
     satelliteSearchError,
     hasActiveSatelliteSearch,
+    setSatelliteSearchPage,
+    setSatelliteSearchLimit,
   } = useSatelliteSearch(satelliteFilters)
   const visibleSatelliteSource = hasActiveSatelliteSearch ? satelliteSearchResults : satellites
   const liveSatellites = useLiveSatellitePositions(visibleSatelliteSource)
@@ -61,12 +69,30 @@ export default function LandingPage() {
   }, [liveSatellites, selectedSatellite])
   const activeStations = activeStationsTotal ?? localActiveStations
   const packetCount = totalPacketsReceived ?? packetPagination?.total ?? stationPackets.length
-  const telemetryMessage = useMemo(() => {
-    const source = stations.find((station) => station.status === true || station.status === 'online') || stations[0]
-    return source
-      ? `New packet received from ${source.name}`
-      : 'Awaiting station telemetry handshake'
-  }, [stations])
+
+  useEffect(() => {
+    if (!latestPacketEvent) return undefined
+
+    const message = `New packet received at ${latestPacketEvent.stationName || 'station'} from ${
+      latestPacketEvent.satelliteDisplayName || `NORAD ${latestPacketEvent.satelliteNoradId || 'unknown'}`
+    }`
+
+    const showTimeoutId = window.setTimeout(() => {
+      setTelemetryNotice({
+        id: `${latestPacketEvent.stationUuid || 'station'}-${latestPacketEvent.createdAt || Date.now()}`,
+        message,
+      })
+    }, 0)
+
+    const hideTimeoutId = window.setTimeout(() => {
+      setTelemetryNotice(null)
+    }, 10000)
+
+    return () => {
+      window.clearTimeout(showTimeoutId)
+      window.clearTimeout(hideTimeoutId)
+    }
+  }, [latestPacketEvent])
 
   function handleStationSelect(station) {
     setSelectedSatellite(null)
@@ -111,7 +137,8 @@ export default function LandingPage() {
   return (
     <main className="landing-page">
       <Navbar
-        telemetryMessage={telemetryMessage}
+        telemetryMessage={telemetryNotice?.message || ''}
+        telemetryMessageId={telemetryNotice?.id || ''}
         isPreviewData={isPreviewData}
         stations={stations}
         satellites={liveSatellites}
@@ -119,13 +146,19 @@ export default function LandingPage() {
         satelliteFilters={satelliteFilters}
         isSearchingSatellites={isSearchingSatellites}
         hasActiveSatelliteSearch={hasActiveSatelliteSearch}
+        satellitePagination={satelliteSearchPagination}
+        satellitePage={satelliteSearchPage}
+        satelliteLimit={satelliteSearchLimit}
         onSelectedStationIdsChange={handleStationFilterChange}
         onSatelliteFiltersChange={setSatelliteFilters}
+        onSatellitePageChange={setSatelliteSearchPage}
+        onSatelliteLimitChange={setSatelliteSearchLimit}
       />
       <section className="landing-page__mission">
         <GlobeView
           stations={filteredStations}
           satellites={liveSatellites}
+          highlightedStationUuids={highlightedStationUuids}
           selectedStation={selectedStation}
           selectedSatellite={selectedLiveSatellite}
           selectedOrbitSatellite={selectedSatellite}

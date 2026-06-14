@@ -39,5 +39,13 @@ export async function listSatellites({ page = 1, limit = 100, displayName = '', 
     throw new Error('Satellite service returned an unexpected payload.')
   }
 
-  return satellites.slice(0, 100)
+  return {
+    satellites: satellites.slice(0, limit),
+    pagination: payload?.pagination || {
+      page,
+      limit,
+      total: satellites.length,
+      totalPages: 1,
+    },
+  }
 }

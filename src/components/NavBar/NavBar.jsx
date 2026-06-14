@@ -6,14 +6,22 @@ import { FilterSidebar } from './elements/FilterSidebar/FilterSidebar.jsx'
 import { NavbarProvider } from './NavbarContext.jsx'
 
 export default function Navbar({
+  telemetryMessage = '',
+  telemetryMessageId = '',
+  isPreviewData = false,
   stations = [],
   satellites = [],
   selectedStationIds = [],
   satelliteFilters = { displayName: '', noradId: '' },
   isSearchingSatellites = false,
   hasActiveSatelliteSearch = false,
+  satellitePagination,
+  satellitePage = 1,
+  satelliteLimit = 25,
   onSelectedStationIdsChange,
   onSatelliteFiltersChange,
+  onSatellitePageChange,
+  onSatelliteLimitChange,
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
@@ -27,6 +35,14 @@ export default function Navbar({
         >
           <span>SCORPIO</span>
         </a>
+        <div className="mission-navbar__telemetry" aria-live="polite">
+          {telemetryMessage && (
+            <div className="mission-navbar__telemetry-track" key={telemetryMessageId || telemetryMessage}>
+              <span className={`mission-navbar__pulse ${isPreviewData ? 'mission-navbar__pulse--preview' : ''}`} />
+              <span>{telemetryMessage}</span>
+            </div>
+          )}
+        </div>
         <nav
           className="mission-navbar__actions"
           aria-label="Primary navigation"
@@ -56,8 +72,13 @@ export default function Navbar({
         satelliteFilters={satelliteFilters}
         isSearchingSatellites={isSearchingSatellites}
         hasActiveSatelliteSearch={hasActiveSatelliteSearch}
+        satellitePagination={satellitePagination}
+        satellitePage={satellitePage}
+        satelliteLimit={satelliteLimit}
         onSelectedStationIdsChange={onSelectedStationIdsChange}
         onSatelliteFiltersChange={onSatelliteFiltersChange}
+        onSatellitePageChange={onSatellitePageChange}
+        onSatelliteLimitChange={onSatelliteLimitChange}
       />
     </NavbarProvider>
   )
