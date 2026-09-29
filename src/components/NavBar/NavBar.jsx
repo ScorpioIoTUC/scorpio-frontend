@@ -1,9 +1,9 @@
 import { FaMagnifyingGlass, FaRightToBracket } from 'react-icons/fa6'
-import './Navbar.css'
+import './NavBar.css'
 import { useState } from 'react'
 import { Menu, MenuToggle } from './elements/Menu/Menu.jsx'
 import { FilterSidebar } from './elements/FilterSidebar/FilterSidebar.jsx'
-import { NavbarProvider } from './NavbarContext.jsx'
+import { NavbarProvider } from './NavBarContext.jsx'
 
 export default function Navbar({
   telemetryMessage = '',
