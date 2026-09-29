@@ -2,7 +2,7 @@
 
 Registro de los cambios implementados para el despliegue en `scorpio.cpsrtc.cl` (CloudFront + WAF delante de un origen nginx). Incluye cambios en `scorpio-frontend` y, donde corresponde, los cambios coordinados en `scorpio-backend` necesarios para que el conjunto funcione.
 
-## 2026-09-29
+## 2026-09-24
 
 ### Modo de registro (signup mode)
 - `src/services/authService.js`: nuevo `getAuthConfig()` que consulta `GET /auth/config` y devuelve `signupMode` (`public` | `admin`). Ante error de red, respuesta inválida o valor desconocido cae al default seguro `admin` (registro deshabilitado).
@@ -29,7 +29,7 @@ Registro de los cambios implementados para el despliegue en `scorpio.cpsrtc.cl` 
 ### Tooling
 - `package.json`: se agregó `packageManager: yarn@1.22.22`.
 
-## 2026-09-24
+## 2026-09-23
 
 ### Healthcheck (Docker)
 - `nginx.conf`: nuevo endpoint `location = /healthz` (200 "ok", sin `access_log`), independiente del fallback SPA y del bundle de la app.
