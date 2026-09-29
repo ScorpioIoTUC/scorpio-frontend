@@ -47,6 +47,12 @@ export default function Navbar({
           className="mission-navbar__actions"
           aria-label="Primary navigation"
         >
+          <div className="mission-navbar__hosted-by">
+            <span>Powered by</span>
+            <a href="https://cpsrtc.cl" target="_blank" rel="noopener noreferrer" aria-label="CPS-RTC">
+              <img src="/cps-rtc-horizontal-white.svg" alt="CPS-RTC" />
+            </a>
+          </div>
           <button
             type="button"
             aria-label="Filters"
