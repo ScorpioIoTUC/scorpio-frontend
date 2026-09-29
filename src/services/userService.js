@@ -55,6 +55,13 @@ export async function getUsers({ page = 1, limit = 5 } = {}) {
   }
 }
 
+export async function createUser(payload) {
+  return request('/users', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export async function updateUser(userId, payload) {
   return request(`/users/${userId}`, {
     method: 'PATCH',
