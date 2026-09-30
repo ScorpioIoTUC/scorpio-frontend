@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
 export async function listSatellites({ page = 1, limit = 100, displayName = '', noradId = '', signal } = {}) {
   const url = new URL(`${API_URL}/satellites`)
