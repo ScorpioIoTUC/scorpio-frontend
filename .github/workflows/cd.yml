@@ -1,0 +1,35 @@
+name: Scorpio Frontend CD
+
+on:
+  push:
+    branches: [deploy]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scorpio-frontend-cd-deploy
+  cancel-in-progress: false
+
+jobs:
+  deployment-trigger:
+    name: Deployment trigger only (no VM deployment)
+    if: github.ref == 'refs/heads/deploy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Checkout the repository to access the commit SHA and event name
+      # TODO: deployment to the VM
+      - name: Record deployment candidate
+        shell: bash
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          {
+            echo '## Frontend CD trigger verified'
+            echo
+            printf 'Event: `%s`\n\n' "$EVENT_NAME"
+            printf 'Candidate commit: `%s`\n\n' "$COMMIT_SHA"
+          } >> "$GITHUB_STEP_SUMMARY"
